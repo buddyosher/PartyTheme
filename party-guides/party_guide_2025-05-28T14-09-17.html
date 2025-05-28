@@ -1,0 +1,152 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Complete Party Guide - Party Planning</title>
+    
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; background-color: #fdfdfe; max-width: 850px; margin: 0 auto; padding: 20px; }
+  .print-controls { position: fixed; top: 15px; right: 15px; z-index: 1000; display: flex; gap: 10px; background-color: rgba(255,255,255,0.9); padding:8px; border-radius:25px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);}
+  .print-button, .share-button { background: linear-gradient(135deg, #5a67d8 0%, #886aea 100%); color: white; border: none; padding: 10px 18px; border-radius: 20px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 12px rgba(90, 103, 216, 0.25); transition: all 0.2s ease; font-size: 13px; text-decoration: none; display: inline-flex; align-items: center; gap: 7px; }
+  .share-button { background: linear-gradient(135deg, #38a169 0%, #2f855a 100%); box-shadow: 0 4px 12px rgba(56, 161, 105, 0.25); }
+  .print-button:hover, .share-button:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(90, 103, 216, 0.3); }
+  .share-button:hover { box-shadow: 0 6px 15px rgba(56, 161, 105, 0.3); }
+  .title-page { text-align: center; padding: 50px 20px; background: linear-gradient(135deg, #5a67d8 0%, #886aea 100%); color: white; border-radius: 12px; margin-bottom: 25px; }
+  .title-page h1 { font-size: 2.2rem; font-weight: 700; margin-bottom: 12px; text-shadow: 1px 1px 3px rgba(0,0,0,0.2); }
+  .title-page .subtitle { font-size: 1.1rem; font-weight: 300; margin-bottom: 8px; opacity:0.9; }
+  .title-page .date { font-size: 0.9rem; opacity: 0.8; }
+  .success-banner { background: linear-gradient(135deg, #48bb78 0%, #38a169 100%); color: white; text-align: center; padding: 20px; margin: 20px 0; border-radius: 10px; box-shadow: 0 4px 6px rgba(72, 187, 120, 0.2); }
+  .success-banner h2 { font-size: 1.6rem; margin-bottom: 8px; }
+  .success-banner p { font-size: 1rem; opacity: 0.9; }
+  .toc-section { background: #f8fafc; border-radius: 10px; padding: 25px; margin: 25px 0; box-shadow: 0 3px 5px rgba(0, 0, 0, 0.04); }
+  .toc-title { font-size: 1.8rem; font-weight: 700; color: #2c3e50; margin-bottom: 20px; text-align: center; border-bottom: 2px solid #7b8be0; padding-bottom: 12px; }
+  .toc-category { margin-bottom: 20px; }
+  .toc-category h3 { font-size: 1.2rem; font-weight: 600; color: #34495e; margin-bottom: 12px; padding: 8px 0; border-left: 3px solid #7b8be0; padding-left: 12px; }
+  .toc-list { list-style: none; padding-left: 15px; }
+  .toc-list li { margin-bottom: 6px; padding: 4px 0; }
+  .toc-link { color: #5a67d8; text-decoration: none; font-weight: 500; border-bottom: 1px dotted #a3bffa; transition: all 0.2s ease; font-size:0.95rem; }
+  .toc-link:hover { color: #886aea; border-bottom-color: #886aea; }
+  .section-header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; border-radius: 10px; text-align: center; margin: 30px 0 20px 0; box-shadow: 0 6px 20px rgba(102, 126, 234, 0.25); }
+  .section-header h2 { font-size: 1.8rem; font-weight: 700; margin-bottom: 8px; }
+  .section-header .icon { font-size: 2rem; margin-bottom: 8px; display: block; }
+  .item-card { background: white; border-radius: 10px; box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05); margin: 20px 0; border: 1px solid #e8eaf6; overflow: hidden; }
+  .item-header { background: #f9fafb; padding: 15px 20px; border-bottom: 1px solid #e8eaf6; }
+  .item-title { font-size: 1.3rem; font-weight: 600; color: #2d3748; margin-bottom: 3px; }
+  .item-content { padding: 20px; }
+  .content-section { margin-bottom: 18px; }
+  .content-section:last-child { margin-bottom: 0; }
+  .content-label { font-size: 1rem; font-weight: 600; color: #4a5568; margin-bottom: 8px; }
+  .content-text { color: #333; line-height: 1.7; font-size: 0.95rem; }
+  .content-text ul, .content-text ol { padding-left: 20px; } /* For game items/instructions if they use lists */
+  .content-text p { margin-bottom: 0.8em; }
+  .ingredient-list, .instruction-list { padding-left: 20px; margin-top: 5px; }
+  .ingredient-list li { margin-bottom: 4px; color: #4a5568; font-size: 0.9rem; }
+  .instruction-list li { margin-bottom: 8px; color: #2d3748; line-height: 1.5; font-size: 0.9rem; }
+  .instruction-list li strong { font-weight: 600; }
+  .theme-badge { background: #7b8be0; color: white; padding: 4px 10px; border-radius: 15px; font-size: 0.8rem; font-weight: 500; display: inline-block; margin-top: 12px; }
+  .recipe .item-header { background: linear-gradient(135deg, #fff5e0 0%, #ffcb8e 100%); } /* Lighter orange tones */
+  .game .item-header { background: linear-gradient(135deg, #e6fffa 0%, #a8e6cf 100%); } /* Lighter green tones */
+  .invitation .item-header { background: linear-gradient(135deg, #fce7f3 0%, #fbcfe8 100%); } /* Lighter pink tones */
+  
+  /* Theme Summary Specific Styling - Cleaner and Smaller Font */
+  .theme-summary-item-card .item-header { background: linear-gradient(135deg, #eef2ff 0%, #dee5fc 100%); } /* Lighter, distinct background */
+  .theme-summary-item-card .item-title { font-size: 1.25rem; color: #4338ca; } /* Slightly smaller title for summary card */
+  .theme-summary-content { background: #fdfdff; border-radius: 8px; padding: 15px; line-height: 1.55; font-size: 0.85rem; color: #374151; border-left: 4px solid #818cf8; margin-top: 8px; }
+  .theme-summary-content p { font-size: 0.85rem; margin-bottom: 0.7em; }
+  .theme-summary-content h3 { color: #4f46e5; margin-top: 0.8em; margin-bottom: 0.4em; font-size: 1.05rem; font-weight: 600; padding-bottom: 0.2em; border-bottom: 1px solid #e5e7eb; }
+  .theme-summary-content strong { font-weight: 600; color: #1f2937; }
+  .invitation-content { background: #fff7f7; border: 1px solid #ffe4e6; border-radius: 6px; padding: 15px; margin: 12px 0; font-style: italic; color: #444; font-size:0.9rem; }
+  .invitation-content p { margin-bottom: 0.5em; }
+  .anchor { display: block; position: relative; top: -70px; visibility: hidden; } /* Adjusted for fixed header if any */
+  .submenu-theme { font-size: 0.85rem; font-weight: 400; color: #555; font-style: italic; }
+  .item-footer { padding: 12px 20px; background: #fcfdff; border-top: 1px solid #f0f2f9; text-align: right; }
+  .back-to-top { color: #5a67d8; text-decoration: none; font-weight: 500; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 4px; padding: 4px 8px; border-radius: 12px; transition: all 0.2s ease; }
+  .back-to-top:hover { background: #e0e7ff; color: #4338ca; transform: translateY(-1px); }
+  .no-break { page-break-inside: avoid; break-inside: avoid; }
+
+  @media print {
+    body { max-width: 100%; margin: 0; padding: 10px; font-size: 10pt; color: #000; background-color: #fff;}
+    .print-controls, .success-banner, .section-header, .item-footer, .title-page .date { display: none !important; }
+    .title-page { padding: 20px 0; background: none; color: #000; text-align:left; border-bottom: 2px solid #000; margin-bottom:15px;}
+    .title-page h1 {font-size: 1.8rem; color: #000; text-shadow:none;}
+    .title-page .subtitle {font-size: 1.1rem; color: #000;}
+    .toc-section { margin: 15px 0; box-shadow: none; border: 1px solid #ccc; padding: 15px;}
+    .toc-title { font-size: 1.5rem; border-bottom: 1px solid #888; }
+    .toc-category h3 { font-size: 1.1rem; border-left: 2px solid #888; }
+    .toc-link { color: #333; border-bottom: 1px dotted #777; font-size: 0.9rem;}
+    .item-card { box-shadow: none; border: 1px solid #ccc; margin: 15px 0; page-break-inside: avoid; }
+    .item-header { background: #eee; padding: 10px 15px; }
+    .item-title { font-size: 1.2rem; }
+    .item-content { padding: 15px; }
+    .content-label { font-size: 0.95rem; }
+    .content-text, .ingredient-list li, .instruction-list li, .invitation-content, .theme-summary-content, .theme-summary-content p { font-size: 0.9rem; color: #000;}
+    .theme-summary-content { border-left: 2px solid #888; padding:10px; background: #f9f9f9; }
+    .theme-summary-content h3 { font-size: 1rem; }
+    .theme-badge { display:none; } /* Often too colorful for print */
+    .anchor { top: 0; }
+    .back-to-top { display: none; }
+  }
+</style>
+
+</head>
+<body>
+
+<div class="print-controls">
+    <button class="print-button" onclick="window.print()">🖨️ Print</button>
+    <button class="share-button" onclick="copyLink()">📤 Share</button>
+</div>
+<div class="title-page" id="top">
+    <h1>🎉 Complete Party Guide</h1>
+    <div class="subtitle">Party Planning</div>
+    <div class="date">Generated: 5/28/2025</div>
+</div>
+<div class="success-banner">
+    <h2>✅ Your Party Guide is Ready!</h2>
+    <p>0 Recipes • 0 Games • 0 Invitations</p>
+</div><div class="toc-section"><h2 class="toc-title">📋 Table of Contents</h2></div>
+<div style="text-align: center; padding: 25px 15px; color: #718096; border-top: 1px solid #e2e8f0; margin-top: 35px;">
+    <p>🎊 Generated with love for your amazing party! 🎊</p>
+    <p style="font-size: 0.85rem; margin-top: 8px;">Created on 5/28/2025</p>
+</div>
+<script>
+    console.log("🎉 Party Guide V2 loaded successfully!");
+    document.addEventListener("keydown", function(e) {
+        if ((e.ctrlKey || e.metaKey) && e.key === "p") {
+            e.preventDefault();
+            window.print();
+        }
+    });
+    function copyLink() {
+        const url = window.location.href;
+        if (navigator.share) {
+            navigator.share({ title: document.title, text: 'Check out this party guide!', url: url })
+                .then(() => console.log('Successful share'))
+                .catch((error) => console.log('Error sharing:', error));
+        } else if (navigator.clipboard) {
+            navigator.clipboard.writeText(url).then(() => {
+                alert("Link copied to clipboard!");
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+                alert("Failed to copy link.");
+            });
+        } else {
+            // Fallback for older browsers
+            const textArea = document.createElement("textarea");
+            textArea.value = url;
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            try {
+                document.execCommand('copy');
+                alert("Link copied to clipboard!");
+            } catch (err) {
+                console.error('Fallback: Oops, unable to copy', err);
+                alert("Failed to copy link.");
+            }
+            document.body.removeChild(textArea);
+        }
+    }
+</script></body></html>
